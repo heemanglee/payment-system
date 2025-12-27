@@ -1,3 +1,26 @@
 spring:
   application:
     name: payment-system
+
+  # JPA 설정
+  jpa:
+    hibernate:
+      ddl-auto: create
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+        dialect: org.hibernate.dialect.MySQLDialect
+
+  # MySQL 설정
+  datasource:
+    url: jdbc:mysql://localhost:3314/payment?useSSL=false&allowPublicKeyRetrieval=true&characterEncoding=UTF-8&serverTimezone=UTC
+    username: user
+    password: qwerasdf
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+  # Redis 설정
+  data:
+    redis:
+      host: localhost
+      port: 6314
