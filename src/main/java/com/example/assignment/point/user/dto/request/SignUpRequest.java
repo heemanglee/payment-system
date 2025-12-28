@@ -15,10 +15,7 @@ public record SignUpRequest(
 
     @NotBlank(message = "Username is required")
     @Size(min = 3, max = 8, message = "Username must be between 3 and 8 characters")
-    String username,
-
-    @Size(min = 6, max = 6)
-    String verificationCode
-) {
+    String username
+    ) {
 }
 

@@ -1,4 +1,4 @@
-package com.example.assignment.point.user.entity;
+package com.example.assignment.point.user.domain.entity;
 
 import lombok.Getter;
 

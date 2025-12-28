@@ -1,11 +1,11 @@
 package com.example.assignment.point.user.controller;
 
 import com.example.assignment.point.user.dto.request.SignUpRequest;
-import com.example.assignment.point.user.dto.response.CreateUserResponse;
-import com.example.assignment.point.user.service.UserService;
+import com.example.assignment.point.user.dto.response.SignUpResponse;
+import com.example.assignment.point.user.application.UserRegistrationFacade;
+import com.example.assignment.point.user.domain.service.UserService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -18,16 +18,11 @@ import org.springframework.web.bind.annotation.RestController;
 public class UserController {
 
     private final UserService userService;
+    private final UserRegistrationFacade userRegistrationFacade;
 
-    @PostMapping("/sign-up")
-    public ResponseEntity<String> signUp(@Valid @RequestBody SignUpRequest createUserRequest) {
-        String verificationCode = userService.register(createUserRequest);
-        return ResponseEntity.ok(verificationCode);
-    }
-
-    @PostMapping("/verify")
-    public ResponseEntity<CreateUserResponse> verify(@Valid @RequestBody SignUpRequest request) {
-        CreateUserResponse response = userService.create(request);
-        return ResponseEntity.status(HttpStatus.CREATED).body(response);
+    @PostMapping("/signup")
+    public ResponseEntity<SignUpResponse> signUp(@Valid @RequestBody SignUpRequest createUserRequest) {
+        SignUpResponse response = userRegistrationFacade.registerWithLock(createUserRequest);
+        return ResponseEntity.ok(response);
     }
 }
