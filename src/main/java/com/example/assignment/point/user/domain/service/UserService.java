@@ -9,6 +9,7 @@ import com.example.assignment.point.user.exception.DuplicateEmailException;
 import com.example.assignment.point.user.domain.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -18,6 +19,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class UserService {
 
     private final UserRepository userRepository;
+    private final PasswordEncoder passwordEncoder;
 
     @Transactional
     public SignUpResponse create(SignUpRequest request) {
@@ -27,7 +29,7 @@ public class UserService {
 
         User user = User.builder()
             .email(request.email())
-            .password(request.password())
+            .password(passwordEncoder.encode(request.password()))
             .username(request.username())
             .userStatus(UserStatus.ACTIVE)
             .role(UserRole.USER)
