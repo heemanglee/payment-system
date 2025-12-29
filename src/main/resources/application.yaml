@@ -25,6 +25,10 @@ spring:
       host: localhost
       port: 6314
 
+  # Kafka 설정
+  kafka:
+    bootstrap-servers: localhost:9014
+
 # JWT 설정
 jwt:
   secret: ${JWT_SECRET:your-256-bit-secret-key-minimum-32-characters-long-for-hs256}
