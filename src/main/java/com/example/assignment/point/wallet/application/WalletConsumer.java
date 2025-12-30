@@ -41,7 +41,9 @@ public class WalletConsumer {
 
             log.info("[WALLET-CONSUME] Successfully created wallet for userId: {}", userId);
         } catch (DataIntegrityViolationException e) {
-            log.error("[WALLET-CONSUME] Duplicate wallet creation attempt for userId: {}", userId);
+            log.warn("[WALLET-CONSUME] Duplicate wallet creation attempt for userId: {}", userId);
+        } catch (UserNotFoundException e) {
+            log.warn("[WALLET-CONSUME] User not found for userId: {}. Skipping (stale message).", userId);
         }
     }
 }
