@@ -1,0 +1,53 @@
+spring:
+  application:
+    name: payment-system-test
+
+  # JPA 설정
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+    show-sql: false
+    properties:
+      hibernate:
+        format_sql: false
+        dialect: org.hibernate.dialect.MySQLDialect
+
+  # MySQL 설정
+  datasource:
+    hikari:
+      maximum-pool-size: 10
+      connection-timeout: 1500
+    url: jdbc:mysql://localhost:3314/payment?useSSL=false&allowPublicKeyRetrieval=true&characterEncoding=UTF-8&serverTimezone=UTC
+    username: user
+    password: qwerasdf
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+  # Redis 설정
+  data:
+    redis:
+      host: localhost
+      port: 6314
+      database: 0
+      timeout: 1000ms
+
+  # Kafka 설정 - Embedded Kafka 사용 (테스트에서 @EmbeddedKafka로 주입)
+  kafka:
+    bootstrap-servers: ${spring.embedded.kafka.brokers:localhost:9092}
+    consumer:
+      auto-offset-reset: earliest
+      group-id: wallet-service-group-test
+
+# JWT 설정
+jwt:
+  secret: test-secret-key-minimum-32-characters-long-for-hs256
+  access-token-expiration: 3600000
+  refresh-token-expiration: 604800000
+
+# 로깅 설정
+logging:
+  level:
+    org.hibernate.SQL: OFF
+    org.hibernate.type.descriptor.sql.BasicBinder: OFF
+    org.hibernate.orm.jdbc.bind: OFF
+    com.zaxxer.hikari: WARN
+    org.springframework.kafka: WARN
