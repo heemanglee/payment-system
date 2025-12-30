@@ -24,10 +24,12 @@ public class UserService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
     private final OutboxRepository outboxRepository;
+    private final RedisRegistrationService registrationService;
 
     @Transactional
     public SignUpResponse create(SignUpRequest request) {
-        if (userRepository.existsByEmail(request.email())) {
+        boolean emailExists = registrationService.isEmailExists(request.email());
+        if (emailExists) {
             throw new DuplicateEmailException("Email already exists: " + request.email());
         }
 
@@ -40,6 +42,8 @@ public class UserService {
             .build();
 
         User savedUser = userRepository.save(user);
+
+        registrationService.addEmail(request.email());
 
         // 사용자의 지갑 생성
         OutboxEvent outbox = OutboxEvent.builder()
